@@ -60,4 +60,8 @@ public class Task {
     public void setHoursUsed(int hoursUsed) {
         this.hoursUsed = hoursUsed;
     }
+
+    public long getId() {
+        return id;
+    }
 }

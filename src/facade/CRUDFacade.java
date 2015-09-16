@@ -2,6 +2,7 @@ package facade;
 
 import entity.Project;
 import entity.ProjectUser;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -9,10 +10,10 @@ import java.util.List;
  */
 public interface CRUDFacade {
     public void createProjectUser(String userName, String email);
+    public void createProject(String name, String description);
     public ProjectUser findUser(long id);
-    public List<ProjectUser> getAllProjectUsers();
-    public Project createProject(String name, String description);
-    public void assignProjectUserToProject(long id);
     public Project findProject(long id);
+    public List<ProjectUser> getAllProjectUsers();
+    public void assignProjectUserToProject(long productUserId, long projectId);
     public void createTaskAndAssignToProject(String name, String description, int hoursAssigned, long id);
 }

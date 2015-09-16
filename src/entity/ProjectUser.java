@@ -54,4 +54,10 @@ public class ProjectUser {
     public void setCreated(String created) {
         this.created = created;
     }
+
+    public long getId() {
+        return id;
+    }
+    
+    
 }

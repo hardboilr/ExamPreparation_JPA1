@@ -2,11 +2,11 @@ package control;
 
 import entity.Project;
 import entity.ProjectUser;
+import entity.Task;
 import facade.CRUDFacade;
+import java.util.Collection;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 /**
  * @author Tobias Jacobsen
@@ -18,37 +18,56 @@ public class CRUD implements CRUDFacade {
 
     @Override
     public void createProjectUser(String userName, String email) {
-
+        ProjectUser p = new ProjectUser(userName, email);
+        em.getTransaction().begin();
+        em.persist(p);
+        em.getTransaction().commit();
     }
 
     @Override
     public ProjectUser findUser(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<ProjectUser> getAllProjectUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Project createProject(String name, String description) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void assignProjectUserToProject(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ProjectUser p = em.find(ProjectUser.class, id);
+        return p;
     }
 
     @Override
     public Project findProject(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Project p = new Project();
+        p = em.find(Project.class, id);
+        return p;
+    }
+
+    @Override
+    public List<ProjectUser> getAllProjectUsers() {
+        Query query = em.createQuery("SELECT e FROM ProjectUser e");
+        List <ProjectUser> list = query.getResultList();
+        return list;
+    }
+
+    @Override
+    public void createProject(String name, String description) {
+        Project p = new Project(name, description);
+        em.getTransaction().begin();
+        em.persist(p);
+        em.getTransaction().commit();
+    }
+
+    @Override
+    public void assignProjectUserToProject(long productUserId, long projectId) {
+        Project project = em.find(Project.class, projectId);
+        ProjectUser projectUser = em.find(ProjectUser.class, productUserId);
+        em.getTransaction().begin();
+        project.addProjectUser(projectUser);
+        em.getTransaction().commit();
     }
 
     @Override
     public void createTaskAndAssignToProject(String name, String description, int hoursAssigned, long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Task task = new Task(name, description, hoursAssigned);
+        Project p = em.find(Project.class, id);
+        em.getTransaction().begin();
+        em.persist(task);
+        p.addTask(task);
+        em.getTransaction().commit();
     }
-
 }
