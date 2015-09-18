@@ -4,7 +4,6 @@ import entity.Project;
 import entity.ProjectUser;
 import entity.Task;
 import facade.CRUDFacade;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.*;
 
@@ -32,8 +31,7 @@ public class CRUD implements CRUDFacade {
 
     @Override
     public Project findProject(long id) {
-        Project p = new Project();
-        p = em.find(Project.class, id);
+        Project p = em.find(Project.class, id);
         return p;
     }
 

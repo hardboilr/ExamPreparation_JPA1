@@ -18,7 +18,7 @@ import org.junit.BeforeClass;
 
 /**
  *
- * @author tobias
+ * @author Tobias Jacobsen
  */
 public class CRUDTester {
 
@@ -55,7 +55,6 @@ public class CRUDTester {
         assertEquals("niels@nielsen.com", p2.getEmail());
         assertEquals("Jens", p3.getUserName());
         assertEquals("jens.cbs@jensen.com", p3.getEmail());
-        em.remove(p1);
     }
 
     @Test
