@@ -1,36 +1,52 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
-/**
- * @author Tobias Jacobsen
- */
 @Entity
-public class Project {
+@Table(name = "project")
+public class Project implements Serializable {
 
+    @Column(name = "project_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "name")
     private String name;
-    private String description;
-    private String created;
-    private String lastModified;
 
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "created")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
+
+    @Column(name = "last_modified")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastModified;
+
+    @JoinTable(name = "project_users", joinColumns = {
+        @JoinColumn(name = "project_id", referencedColumnName = "project_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "project_user_id")})
     @ManyToMany
     private List<ProjectUser> projectUserList = new ArrayList();
 
+    @JoinColumn(name = "task_list")
     @OneToMany(mappedBy = "project")
     private List<Task> taskList = new ArrayList();
 
     public Project() {
     }
 
-    public Project(String name, String description) {
+    public Project(String name, String description, Date created, Date lastModified) {
         this.name = name;
         this.description = description;
+        this.created = created;
+        this.lastModified = lastModified;
     }
 
     public String getName() {
@@ -49,19 +65,19 @@ public class Project {
         this.description = description;
     }
 
-    public String getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
-    public String getLastModified() {
+    public Date getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(String lastModified) {
+    public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
     }
 

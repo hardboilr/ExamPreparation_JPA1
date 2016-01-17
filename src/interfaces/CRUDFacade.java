@@ -1,8 +1,8 @@
-package facade;
+package interfaces;
 
 import entity.Project;
 import entity.ProjectUser;
-import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,8 +10,8 @@ import java.util.List;
  */
 public interface CRUDFacade {
     public void createProjectUser(String userName, String email);
-    public void createProject(String name, String description);
-    public ProjectUser findUser(long id);
+    public void createProject(String name, String description, Date created, Date lastModified);
+    public ProjectUser getProjectUser(long id);
     public Project findProject(long id);
     public List<ProjectUser> getAllProjectUsers();
     public void assignProjectUserToProject(long productUserId, long projectId);

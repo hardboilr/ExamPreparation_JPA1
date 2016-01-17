@@ -1,25 +1,29 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
-/**
- *
- * @author Tobias Jacobsen
- */
+@Table(name="project_user")
 @Entity
-public class ProjectUser {
+public class ProjectUser implements Serializable {
     
+    @Column(name="project_user_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
     private long id;
     
+    @Column(name="user_name")
     private String userName;
+    
+    @Column(name="email")
     private String email;
+    
+    @Column(name="created")
     private String created;
     
+    @JoinColumn(name="project_id_hallo")
     @ManyToMany(mappedBy="projectUserList")
     private List<Project> projectList = new ArrayList();
 

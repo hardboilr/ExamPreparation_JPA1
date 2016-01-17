@@ -1,22 +1,30 @@
 package entity;
 
+import java.io.Serializable;
 import javax.persistence.*;
 
-/**
- * @author Tobias Jacobsen
- */
+@Table(name="task")
 @Entity
-public class Task {
+public class Task implements Serializable {
     
+    @Column(name="task_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
+    @Column(name="name")
     private String name;
+    
+    @Column(name="description")
     private String description;
+    
+    @Column(name="hours_assigned")
     private int hoursAssigned;
+    
+    @Column(name="hours_used")
     private int hoursUsed;
     
+    @JoinColumn(name="project_id")
     @ManyToOne
     private Project project;
     

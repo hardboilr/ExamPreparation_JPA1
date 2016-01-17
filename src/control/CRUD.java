@@ -3,18 +3,21 @@ package control;
 import entity.Project;
 import entity.ProjectUser;
 import entity.Task;
-import facade.CRUDFacade;
+import interfaces.CRUDFacade;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
-/**
- * @author Tobias Jacobsen
- */
 public class CRUD implements CRUDFacade {
 
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
-    EntityManager em = emf.createEntityManager();
+    private final EntityManagerFactory emf;
+    private final EntityManager em;
 
+    public CRUD() {
+        emf = Persistence.createEntityManagerFactory("PU");
+        em = emf.createEntityManager();
+    }
+    
     @Override
     public void createProjectUser(String userName, String email) {
         ProjectUser p = new ProjectUser(userName, email);
@@ -24,27 +27,28 @@ public class CRUD implements CRUDFacade {
     }
 
     @Override
-    public ProjectUser findUser(long id) {
+    public ProjectUser getProjectUser(long id) {
         ProjectUser p = em.find(ProjectUser.class, id);
         return p;
     }
-
-    @Override
-    public Project findProject(long id) {
-        Project p = em.find(Project.class, id);
-        return p;
-    }
-
+    
     @Override
     public List<ProjectUser> getAllProjectUsers() {
         Query query = em.createQuery("SELECT e FROM ProjectUser e");
         List <ProjectUser> list = query.getResultList();
         return list;
     }
+    
+    @Override
+    public Project findProject(long id) {
+        Project p = em.find(Project.class, id);
+        return p;
+    }
+
 
     @Override
-    public void createProject(String name, String description) {
-        Project p = new Project(name, description);
+    public void createProject(String name, String description, Date created, Date lastModified) {
+        Project p = new Project(name, description, created, lastModified);
         em.getTransaction().begin();
         em.persist(p);
         em.getTransaction().commit();
